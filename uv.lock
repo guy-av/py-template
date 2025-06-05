@@ -1,0 +1,25 @@
+version = 1
+revision = 2
+requires-python = ">=3.13"
+
+[manifest]
+members = [
+    "py-template",
+    "sample-template",
+]
+
+[[package]]
+name = "py-template"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "sample-template" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "sample-template", editable = "packages/sample-template" }]
+
+[[package]]
+name = "sample-template"
+version = "0.1.0"
+source = { editable = "packages/sample-template" }

@@ -8,29 +8,66 @@ authors = [
 ]
 requires-python = ">=3.13"
 dependencies = [
-    "sample-template",
+    "attrs>=25.3.0",
+    "dissect>=3.20",
+    "pytsk3>=20250801",
+    "plat-image",
+    "plat-common",
 ]
 
 [tool.uv.workspace]
 members = [
-    "packages/sample-template",
+    "packages/plat-image",
+    "packages/plat-common",
 ]
 
 [tool.uv.sources]
-sample-template = { workspace = true }
+plat-image = { workspace = true }
+plat-common = { workspace = true }
 
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.8.15,<0.9.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "ipython>=9.5.0",
+    "mypy>=1.17.1",
+    "pre-commit>=4.3.0",
+    "returns[compatible-mypy]>=0.26.0",
+    "ruff>=0.12.12",
+]
+test = [
+    "pytest>=8.4.2",
+    "pytest-cov>=7.0.0",
+    "syrupy>=4.9.1",
+]
+
+[project.scripts]
+pp = "py_template:main"
+
+[tool.ruff]
+line-length = 100
 
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
     "COM812",
+    "TD002",
+    "TD003",
+    "FIX002",
 ]
+per-file-ignores = { "**/tests/*" = ["D104", "D100", "S101", "SLF001"] }
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.mypy]
 strict = true
+explicit_package_bases = true
+ignore_missing_imports = true
+plugins = ["returns.contrib.mypy.returns_plugin"]
+exclude = [
+    ".venv",
+    "dist",
+]
